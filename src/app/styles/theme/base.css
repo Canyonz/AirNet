@@ -1,4 +1,16 @@
 :root {
 	--primaryColor: #1f2939;
 	--secondaryColor: #5e6674;
+
+	--bgColor: #f8f9fa;
+	--bgColorAccent: #e1e4e7;
+
+	--disabledColor: #5e6674;
+
+	--iconBtnBgColor: #ffe9e9;
+	--iconBtnBgColor-hover: #fed7d7;
+	--iconBtnBgColor-disabled: #f2f5f8;
+	--iconBtnColor-disabled: #9da6b4;
+
+	--overlayBgColor: rgba(0, 0, 0, 0.6);
 }

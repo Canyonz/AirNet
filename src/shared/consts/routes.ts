@@ -1,2 +1,2 @@
 export const getRouteMain = () => "/";
-export const getRouteTODO = (id: string) => `/todo/${id}`;
+export const getRouteTODO = (profile: string) => `/${profile}`;

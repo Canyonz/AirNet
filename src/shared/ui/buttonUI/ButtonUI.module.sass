@@ -1,0 +1,31 @@
+.buttonUI
+  display: block
+  transition: background-color 0.33s
+  cursor: pointer
+
+  &:hover
+    background-color: var(--bgColorAccent)
+
+  &:active
+    background-color: var(--bgColor)
+
+  &:disabled
+    cursor: auto
+    background-color: var(--disabledColor)
+
+.filled
+  padding: 5px 10px
+  background-color: var(--bgColor)
+  border-radius: 10px
+  border: none
+
+.outline
+  padding: 5px 10px
+  background-color: var(--bgColor)
+  border-radius: 10px
+  border: 1px solid var(--bgColorAccent)
+
+.clear
+  background: none
+  border: none
+  outline: none
