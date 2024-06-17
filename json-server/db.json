@@ -1,0 +1,21 @@
+{
+	"profile": [
+		{
+			"id": 1,
+			"name": "home",
+			"dates": [
+				{
+					"id": 1,
+					"date": "6 июня 2024 г.",
+					"tasks": [
+						{
+							"id": 1,
+							"value": "Приготовить еду",
+							"completed": false
+						}
+					]
+				}
+			]
+		}
+	]
+}

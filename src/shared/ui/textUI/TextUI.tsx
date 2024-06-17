@@ -7,14 +7,26 @@ type TextUIAlign = "left" | "center" | "right";
 
 interface TextUIProps {
 	text?: string;
+	title?: string;
 	variant?: TextUIVariant;
 	color?: TextUIColor;
 	textAlign?: TextUIAlign;
 	className?: string;
 }
 
-export const TextUI = ({ text = "", variant = "span", color = "primary", textAlign = "left", className }: TextUIProps) => {
+export const TextUI = ({
+	text = "",
+	title = "",
+	variant = "span",
+	color = "primary",
+	textAlign = "left",
+	className,
+}: TextUIProps) => {
 	const TextTag = variant;
 
-	return <TextTag className={cls(styles.textUI, styles[color], styles[textAlign], className)}>{text}</TextTag>;
+	return (
+		<TextTag title={title} className={cls(styles.textUI, styles[color], styles[textAlign], className)}>
+			{text}
+		</TextTag>
+	);
 };

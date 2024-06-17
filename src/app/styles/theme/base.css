@@ -1,15 +1,21 @@
 :root {
 	--primaryColor: #1f2939;
 	--secondaryColor: #5e6674;
+	--accentColor: #2600ff;
 
 	--bgColor: #f8f9fa;
 	--bgColorAccent: #e1e4e7;
 
+	--btnBgColor: #a0e4ff;
+	--btnBgColorAccent: #70d7ff;
+
 	--disabledColor: #5e6674;
 
-	--iconBtnBgColor: #ffe9e9;
-	--iconBtnBgColor-hover: #fed7d7;
-	--iconBtnBgColor-disabled: #f2f5f8;
+	--iconColor: #3d3d3d;
+	--iconBtnBgColor: #f3f3f3;
+	--iconBtnBgColor-hover: #e9e9e9;
+	--iconBtnBgColor-action: #dddddd;
+	--iconBtnBgColor-disabled: #ebebeb;
 	--iconBtnColor-disabled: #9da6b4;
 
 	--overlayBgColor: rgba(0, 0, 0, 0.6);

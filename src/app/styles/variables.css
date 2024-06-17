@@ -16,8 +16,8 @@
 	--font-title: var(--font-weight-title) var(--font-size-title) / var(--font-height-title) var(--font-family);
 
 	/* SubTitle */
-	--font-size-subTitle: 13px;
-	--font-height-subTitle: 16px;
+	--font-size-subTitle: 18px;
+	--font-height-subTitle: 22px;
 	--font-weight-subTitle: 500;
 
 	--font-subTitle: var(--font-weight-subTitle) var(--font-size-subTitle) / var(--font-height-subTitle) var(--font-family);
