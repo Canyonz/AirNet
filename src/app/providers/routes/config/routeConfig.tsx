@@ -10,7 +10,7 @@ export const routeConfig = createBrowserRouter([
 		errorElement: <div>Страница не найдена...</div>,
 	},
 	{
-		path: getRouteTODO(":profile"),
+		path: getRouteTODO(":id"),
 		element: <TodoPage />,
 		errorElement: <div>Страница не найдена...</div>,
 	},

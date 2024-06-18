@@ -1,21 +1,58 @@
 {
-	"profile": [
-		{
-			"id": 1,
-			"name": "home",
-			"dates": [
-				{
-					"id": 1,
-					"date": "6 июня 2024 г.",
-					"tasks": [
-						{
-							"id": 1,
-							"value": "Приготовить еду",
-							"completed": false
-						}
-					]
-				}
-			]
-		}
-	]
+  "profile": [
+    {
+      "id": "job",
+      "name": "Работа",
+      "image": "/images/jobTodo.jpg"
+    },
+    {
+      "id": "home",
+      "name": "Дом",
+      "image": "/images/homeTodo.jpg"
+    }
+  ],
+  "todo": [
+    {
+      "todoList": [
+        {
+          "id": "1",
+          "date": "6 июня 2024 г.",
+          "tasks": [
+            {
+              "id": "1",
+              "value": "Сделать проект для вакансии",
+              "completed": false
+            },
+            {
+              "id": "2",
+              "value": "Получить хороший фидбэк",
+              "completed": false
+            },
+            {
+              "id": "3",
+              "value": "Получить оффер",
+              "completed": false
+            },
+            {
+              "id": "4",
+              "value": "Устроиться на работу)",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "id": "2",
+          "date": "7 июня 2024 г.",
+          "tasks": [
+            {
+              "id": "1",
+              "value": "Приготовить еду",
+              "completed": false
+            }
+          ]
+        }
+      ],
+      "id": "home"
+    }
+  ]
 }

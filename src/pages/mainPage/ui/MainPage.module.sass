@@ -2,25 +2,20 @@
   display: flex
   min-height: 100vh
 
-  .mainPageLeftCard
+  .mainPageCard
     flex: 3
     position: relative
     transition: flex 1s ease
     &:hover
       flex: 5
 
-  .mainPageRightCard
-    flex: 3
-    position: relative
-    transition: flex 1s ease
-    &:hover
-      flex: 5
-    &::before
-      content: ''
-      position: absolute
-      top: 0
-      left: 0
-      width: 20px
-      height: 100%
-      transform: translateX(-50%)
-      backdrop-filter: blur(2px)
+    &:last-of-type
+      &::before
+        content: ''
+        position: absolute
+        top: 0
+        left: 0
+        width: 20px
+        height: 100%
+        transform: translateX(-50%)
+        backdrop-filter: blur(2px)

@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { TodoAddTaskI } from "../types/todoAddTaskType";
+import { TodoAddTaskSchema } from "../types/todoAddTaskType";
 
-const initialState: TodoAddTaskI = {
+const initialState: TodoAddTaskSchema = {
 	value: "",
 };
 
