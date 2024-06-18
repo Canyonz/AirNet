@@ -14,7 +14,7 @@ export const ProfileCardPreview = ({ text, img, className, onClick }: ProfileCar
 	return (
 		<ButtonUI
 			variant="clear"
-			style={{ backgroundImage: `url(${img})` }}
+			style={{ backgroundImage: `url(.${img})` }}
 			className={cls(styles.profileCardPreview, className)}
 			onClick={onClick}
 		>
