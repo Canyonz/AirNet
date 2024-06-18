@@ -14,7 +14,8 @@ const todoApi = $rtkApi.injectEndpoints({
 				method: "GET",
 			}),
 		}),
-		addTaskTodo: build.mutation<TodoI, AddTodoByIdProps>({
+
+		editableTodoById: build.mutation<TodoI, AddTodoByIdProps>({
 			query: ({ id, todoList }) => ({
 				url: `/todo/${id}`,
 				method: "PUT",
@@ -25,4 +26,4 @@ const todoApi = $rtkApi.injectEndpoints({
 });
 
 export const fetchTodoByIdQuery = todoApi.endpoints.fetchTodoById.initiate;
-export const addTaskTodoQuery = todoApi.endpoints.addTaskTodo.initiate;
+export const editableTodoByIdQuery = todoApi.endpoints.editableTodoById.initiate;

@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { TodoI, TodoSchema } from "../types/todoType";
-import { fetchTodoById } from "../services/todoService";
+import { addTaskTodo, addTodoItemList, editableTodoById, fetchTodoById } from "../services/todoService";
 
 const initialState: TodoSchema = {
 	loading: false,
@@ -22,6 +22,26 @@ const todoSlice = createSlice({
 			state.loading = false;
 			state.error = action.payload;
 		});
+		builder.addMatcher(
+			(action) => action.type.endsWith("/fulfilled"),
+			(state, action: PayloadAction<TodoI>) => {
+				state.loading = false;
+				state.todo = action.payload;
+			}
+		);
+		builder.addMatcher(
+			(action) => action.type.endsWith("/rejected"),
+			(state, action) => {
+				state.loading = false;
+				state.error = action.payload;
+			}
+		);
+		builder.addMatcher(
+			(action) => action.type.endsWith("/pending"),
+			(state) => {
+				state.loading = true;
+			}
+		);
 	},
 });
 

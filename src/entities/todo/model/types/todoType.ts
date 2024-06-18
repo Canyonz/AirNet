@@ -5,6 +5,7 @@ export interface TodoTaskI {
 }
 
 export interface TodoListI {
+	value: string;
 	id?: string;
 	date: string;
 	tasks: TodoTaskI[];

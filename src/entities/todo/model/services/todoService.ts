@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { TodoI, TodoListI, TodoTaskI } from "../types/todoType";
+import { TodoI, TodoTaskI } from "../types/todoType";
 import { ThunkConfig } from "@/app/providers/store/config/configStore";
-import { addTaskTodoQuery, fetchTodoByIdQuery } from "../api/todoApi";
+import { editableTodoByIdQuery, fetchTodoByIdQuery } from "../api/todoApi";
 import { getTodo } from "../selectors/todoSelector";
 
 export const fetchTodoById = createAsyncThunk<TodoI, string | undefined, ThunkConfig<string>>(
@@ -24,14 +24,61 @@ export const fetchTodoById = createAsyncThunk<TodoI, string | undefined, ThunkCo
 	}
 );
 
-interface AddTaskTodoProps {
-	todoListId: string;
+interface AddTodoTaskProps {
+	todoListId: string | undefined;
+	selectedDate: string;
 	task: TodoTaskI;
 }
 
-export const addTaskTodo = createAsyncThunk<TodoI, AddTaskTodoProps, ThunkConfig<string>>(
-	"todo/fetchTodoById",
-	async ({ todoListId, task }, thunkApi) => {
+export const addTodoTask = createAsyncThunk<TodoI, AddTodoTaskProps, ThunkConfig<string>>(
+	"todo/addTodoTask",
+	async ({ todoListId, selectedDate, task }, thunkApi) => {
+		const { dispatch, rejectWithValue, getState } = thunkApi;
+
+		const todo = getTodo(getState());
+
+		if (!todo?.id) {
+			return rejectWithValue("error");
+		}
+
+		const newTodoList = todoListId
+			? todo.todoList.map((todo) => {
+					if (todo.id !== todoListId) return todo;
+
+					return {
+						...todo,
+						tasks: [...todo.tasks, task],
+					};
+			  })
+			: [
+					...todo.todoList,
+					{
+						id: (Date.now() + 1).toString(),
+						date: selectedDate,
+						tasks: [task],
+					},
+			  ];
+
+		try {
+			const response = await dispatch(editableTodoByIdQuery({ id: todo.id, todoList: newTodoList })).unwrap();
+
+			return response;
+		} catch (error) {
+			console.log(error);
+			return rejectWithValue("error");
+		}
+	}
+);
+
+interface completeTodoTaskByIdProps {
+	todoListId: string;
+	taskId: string;
+	completed: boolean;
+}
+
+export const completeTodoTaskById = createAsyncThunk<TodoI, completeTodoTaskByIdProps, ThunkConfig<string>>(
+	"todo/completeTodoTaskById",
+	async ({ todoListId, taskId, completed }, thunkApi) => {
 		const { dispatch, rejectWithValue, getState } = thunkApi;
 
 		const todo = getTodo(getState());
@@ -41,19 +88,58 @@ export const addTaskTodo = createAsyncThunk<TodoI, AddTaskTodoProps, ThunkConfig
 		}
 
 		const newTodoList = todo.todoList.map((todo) => {
-			if (todo.id === todoListId) {
-				return {
-					...todo,
-					tasks: [...todo.tasks, task],
-				};
-			}
-			return todo;
+			if (todo.id !== todoListId) return todo;
+
+			return {
+				...todo,
+				tasks: todo.tasks.map((task) => {
+					if (task.id !== taskId) return task;
+					return { ...task, completed: completed };
+				}),
+			};
 		});
 
-		console.log(todo.todoList);
 		try {
-			const response = await dispatch(addTaskTodoQuery({ id: todo.id, todoList: newTodoList })).unwrap();
-			console.log(response);
+			const response = await dispatch(editableTodoByIdQuery({ id: todo.id, todoList: newTodoList })).unwrap();
+
+			return response;
+		} catch (error) {
+			console.log(error);
+			return rejectWithValue("error");
+		}
+	}
+);
+
+interface DeleteTodoByIdProps {
+	todoListId: string;
+	taskId: string;
+}
+
+export const deleteTodoById = createAsyncThunk<TodoI, DeleteTodoByIdProps, ThunkConfig<string>>(
+	"todo/deleteTodoById",
+	async ({ todoListId, taskId }, thunkApi) => {
+		const { dispatch, rejectWithValue, getState } = thunkApi;
+
+		const todo = getTodo(getState());
+
+		if (!todo?.id) {
+			return rejectWithValue("error");
+		}
+
+		const newTodoList = todo.todoList.map((todo) => {
+			if (todo.id !== todoListId) return todo;
+
+			return {
+				...todo,
+				tasks: todo.tasks.filter((task) => task.id !== taskId),
+			};
+		});
+
+		const filteredNewTodoList = newTodoList.filter((todo) => todo.tasks.length > 0);
+
+		try {
+			const response = await dispatch(editableTodoByIdQuery({ id: todo.id, todoList: filteredNewTodoList })).unwrap();
+
 			return response;
 		} catch (error) {
 			console.log(error);

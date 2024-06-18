@@ -7,14 +7,14 @@ interface TodoTaskProps {
 	index: number;
 	task: string;
 	actions: ReactElement;
-	classname?: string;
+	className?: string;
 }
 
-export const TodoTask = ({ index, task, actions, classname }: TodoTaskProps) => {
+export const TodoTask = ({ index, task, actions, className }: TodoTaskProps) => {
 	const taskText = `${index}. ${task}`;
 
 	return (
-		<div className={cls(styles.todoTask, classname)}>
+		<div className={cls(styles.todoTask, className)}>
 			<TextUI title={task} text={taskText} className={styles.todoTaskText}/>
 			{actions}
 		</div>

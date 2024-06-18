@@ -1,34 +1,54 @@
-import Calendar from "react-calendar";
-import styles from "./TodoPageContent.module.sass";
-import cls from "classnames";
+import { fetchTodoById } from "@/entities/todo";
+import { useAppDispatch } from "@/shared/lib/hooks/useAppDispatch";
 import { ModalUI } from "@/shared/ui/modalUI/ModalUI";
 import { Todo } from "@/widgets/todo";
+import cls from "classnames";
 import { useCallback, useEffect, useState } from "react";
-import { fetchTodoById, getTodoList } from "@/entities/todo";
+import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { useAppDispatch } from "@/shared/lib/hooks/useAppDispatch";
-import { useSelector } from "react-redux";
+import styles from "./TodoPageContent.module.sass";
 
 interface TodoPageContentProps {
 	id: string;
 	className?: string;
 }
 
+const getFirstAndLastDayOfWeek = (date: Date) => {
+	const dayOfWeek = date.getDay();
+	const firstDayOfWeek = new Date(date.getFullYear(), date.getMonth(), date.getDate() - dayOfWeek + 1);
+	const lastDayOfWeek = new Date(date.getFullYear(), date.getMonth(), date.getDate() - dayOfWeek + 7);
+
+	return { firstDayOfWeek, lastDayOfWeek };
+};
+
+const getDateFormated = (date: Date) => {
+	const formatedDate = new Intl.DateTimeFormat("ru-RU", { year: "numeric", month: "long", day: "numeric" }).format(date);
+
+	return formatedDate;
+};
+
 export const TodoPageContent = ({ id, className }: TodoPageContentProps) => {
-	const [selectDateDay, setSelectDateDay] = useState("");
-	const todos = useSelector(getTodoList);
+	const [selectedDate, setSelectedDate] = useState("");
+	const [selectedWeek, setSelectedWeek] = useState<{ firstDay: string; lastDay: string }>({
+		firstDay: "",
+		lastDay: "",
+	});
+
 	const dispatch = useAppDispatch();
 
-	const todo = todos?.find((todo) => todo.date === selectDateDay);
+	const handleSelectedDate = useCallback((value: Date) => {
+		const formattedDate = getDateFormated(value);
 
-	const handleSelectDate = useCallback((value: Date) => {
-		const formattedDate = new Intl.DateTimeFormat("ru-RU", { year: "numeric", month: "long", day: "numeric" }).format(value);
+		const { firstDayOfWeek, lastDayOfWeek } = getFirstAndLastDayOfWeek(value);
+		const formattedFirstDay = getDateFormated(firstDayOfWeek);
+		const formattedLastDay = getDateFormated(lastDayOfWeek);
 
-		setSelectDateDay(formattedDate);
+		setSelectedDate(formattedDate);
+		setSelectedWeek({ firstDay: formattedFirstDay, lastDay: formattedLastDay });
 	}, []);
 
 	const handleOnCloseModal = useCallback(() => {
-		setSelectDateDay("");
+		setSelectedDate("");
 	}, []);
 
 	useEffect(() => {
@@ -37,10 +57,10 @@ export const TodoPageContent = ({ id, className }: TodoPageContentProps) => {
 
 	return (
 		<div className={cls(styles.todoPageContent, className)}>
-			<Calendar onClickDay={handleSelectDate} className={styles.todoPageContentCalendar} />
-			{selectDateDay && (
+			<Calendar onClickDay={handleSelectedDate} className={styles.todoPageContentCalendar} />
+			{selectedDate && (
 				<ModalUI onClose={handleOnCloseModal}>
-					<Todo todo={todo} />
+					<Todo selectedDate={selectedDate} selectedWeek={selectedWeek} />
 				</ModalUI>
 			)}
 		</div>

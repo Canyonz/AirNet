@@ -4,27 +4,32 @@ import { IconUI } from "@/shared/ui/iconUI/IconUI";
 import cls from "classnames";
 import { useCallback } from "react";
 import styles from "./TodoActionsTask.module.sass";
+import { useAppDispatch } from "@/shared/lib/hooks/useAppDispatch";
+import { completeTodoTaskById, deleteTodoById } from "@/entities/todo";
 
 interface TodoActionsTaskProps {
-	taskId: string;
-	date: string;
+	taskId?: string;
+	todoListId?: string;
+	isCompleted?: boolean;
 	className?: string;
 }
 
-export const TodoActionsTask = ({ taskId, date, className }: TodoActionsTaskProps) => {
+export const TodoActionsTask = ({ taskId, todoListId, isCompleted, className }: TodoActionsTaskProps) => {
+	const dispatch = useAppDispatch();
+
 	const handleCompleteTaskClick = useCallback(() => {
-		console.log(taskId);
-		console.log(date);
-	}, [date, taskId]);
+		if (taskId && todoListId) dispatch(completeTodoTaskById({ taskId, todoListId, completed: true }));
+	}, [taskId, todoListId, dispatch]);
 
 	const handleDeleteTaskClick = useCallback(() => {
-		console.log(taskId);
-		console.log(date);
-	}, [date, taskId]);
+		if (taskId && todoListId) dispatch(deleteTodoById({ taskId, todoListId }));
+	}, [dispatch, taskId, todoListId]);
 
 	return (
 		<div className={cls(styles.todoActionsTask, className)}>
-			<IconUI Svg={CheckSVG} onClick={handleCompleteTaskClick} classNameIcon={styles.todoActionsTaskCompleteIcon} />
+			{!isCompleted && (
+				<IconUI Svg={CheckSVG} onClick={handleCompleteTaskClick} classNameIcon={styles.todoActionsTaskCompleteIcon} />
+			)}
 			<IconUI Svg={DeleteSVG} onClick={handleDeleteTaskClick} classNameIcon={styles.todoActionsTaskDeleteIcon} />
 		</div>
 	);
